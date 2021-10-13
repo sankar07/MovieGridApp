@@ -1,0 +1,87 @@
+apply plugin: 'com.android.application'
+
+apply plugin: 'kotlin-android'
+
+apply plugin: 'kotlin-android-extensions'
+
+apply plugin: 'kotlin-kapt'
+
+apply plugin: "androidx.navigation.safeargs.kotlin"
+
+android {
+    compileSdkVersion 30
+    buildToolsVersion "29.0.2"
+    defaultConfig {
+        applicationId "com.codeheros.movieapp"
+        minSdkVersion 21
+        targetSdkVersion 30
+        versionCode 1
+        versionName "1.0"
+
+
+        buildConfigField "String", "API_KEY", '"6d3e21328ac2bd2eb0fd28e60f47ec50"'
+        buildConfigField "String", "BASE_URL", '"https://api.themoviedb.org/3/"'
+        buildConfigField "String", "YOUTUBE_API_KEY", '""'
+        buildConfigField "String", "POSTER_BASE_URL", '"https://image.tmdb.org/t/p/w500/"'
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+    dataBinding.enabled = true
+    buildTypes {
+        release {
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+}
+
+dependencies {
+    def dependencies = rootProject.ext.app_dependencies
+    kapt dependencies.dagger_compiler
+    implementation dependencies.fresco
+    implementation dependencies.nav_ui
+    implementation dependencies.core_ktx
+    implementation dependencies.app_compat
+    implementation dependencies.nav_fragment
+    implementation dependencies.recycler_view
+    implementation dependencies.view_model_ktx
+    kapt dependencies.dagger_android_processor
+    implementation dependencies.dagger_android
+    implementation dependencies.material_version
+    implementation dependencies.constraint_layout
+    implementation dependencies.life_cycle_extensions
+    implementation dependencies.dagger_android_support
+
+    def core_dependencies = rootProject.ext.core_dependencies
+    api core_dependencies.kotlin
+    api core_dependencies.dagger
+    api core_dependencies.coroutines
+    api core_dependencies.room_annotations
+    kapt core_dependencies.dagger_compiler
+    api core_dependencies.paging
+
+    def remote_dependencies = rootProject.ext.remote_dependencies
+    implementation remote_dependencies.retrofit_2
+    implementation remote_dependencies.retrofit_gson_converter
+    implementation remote_dependencies.ok_http_logging_interceptor
+    kapt remote_dependencies.dagger_compiler
+
+    def local_dependencies = rootProject.ext.local_dependencies
+    kapt local_dependencies.room_compiler
+    kapt local_dependencies.dagger_compiler
+    implementation local_dependencies.room
+    implementation local_dependencies.room_coroutines
+
+
+    def common_dependencies = rootProject.ext.common_dependencies
+    androidTestImplementation dependencies.espresso_rules
+    androidTestImplementation dependencies.espresso_contrib
+    androidTestImplementation common_dependencies.test_runner
+    androidTestImplementation common_dependencies.espresso_core
+
+}

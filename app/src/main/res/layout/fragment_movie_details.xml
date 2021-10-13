@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools">
+	
+	<data>
+		<variable
+			name="movie"
+			type="com.codeheros.movieapp.model.MovieDetails"/>
+	</data>
+
+	<androidx.coordinatorlayout.widget.CoordinatorLayout
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:fitsSystemWindows="true"
+		tools:background="@drawable/shape_movie_placeholder">
+
+		<com.google.android.material.appbar.AppBarLayout
+			android:id="@+id/appBar"
+			android:layout_width="match_parent"
+			android:layout_height="250dp"
+			android:fitsSystemWindows="true">
+			<com.google.android.material.appbar.CollapsingToolbarLayout
+				android:id="@+id/collapsing_toolbar"
+				android:layout_width="match_parent"
+				android:layout_height="match_parent"
+				app:contentScrim="?attr/colorPrimary"
+				android:fitsSystemWindows="true"
+				android:elevation="1dp"
+				app:layout_scrollFlags="scroll|snap">
+
+				<androidx.constraintlayout.widget.ConstraintLayout
+					android:layout_width="match_parent"
+					android:layout_height="match_parent"
+					android:layout_marginTop="?attr/actionBarSize">
+
+					<androidx.constraintlayout.widget.Guideline
+						android:id="@+id/vertical_guide_line"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						app:layout_constraintGuide_percent=".4"
+						android:orientation="vertical"/>
+
+					<com.facebook.drawee.view.SimpleDraweeView
+						android:id="@+id/moviePosterSimpleDraweeView"
+						posterURL="@{movie.posterURL}"
+						android:layout_width="@dimen/item_movie_poster_width"
+						android:layout_height="@dimen/item_movie_poster_height"
+						android:scaleType="fitXY"
+						android:transitionName="fade"
+						app:fadeDuration="300"
+						app:layout_collapseMode="parallax"
+						android:layout_marginLeft="@dimen/fragment_movie_list_movie_list_margin"
+						app:layout_constraintStart_toStartOf="parent"
+						app:layout_constraintEnd_toStartOf="@id/vertical_guide_line"
+						app:layout_constraintTop_toTopOf="parent"/>
+
+					<TextView
+						android:id="@+id/movieTitleTextView"
+						style="@style/AppTheme.MovieListTitle"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:maxLines="1"
+						android:text="@{movie.title}"
+						app:layout_constraintStart_toEndOf="@id/vertical_guide_line"
+						app:layout_constraintTop_toTopOf="@id/moviePosterSimpleDraweeView"
+						tools:text="Spider-Man: Far From Home"/>
+
+					<TextView
+						android:id="@+id/runningTIme"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:textColor="@color/colorTextPrimary"
+						android:textSize="@dimen/item_movie_detail_text_size"
+						android:layout_marginTop="@dimen/movie_details_horizontal_margin"
+						android:maxLines="1"
+						android:text="@{String.format(@string/runtime, movie.runtime)}"
+						app:layout_constraintStart_toStartOf="@id/movieTitleTextView"
+						app:layout_constraintTop_toBottomOf="@id/movieTitleTextView"
+						tools:text="2"/>
+
+					<TextView
+						android:id="@+id/date"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:textColor="@color/colorTextPrimary"
+						android:textSize="@dimen/item_movie_detail_text_size"
+						android:layout_marginStart="@dimen/movie_details_horizontal_margin"
+						android:layout_marginTop="@dimen/movie_details_horizontal_margin"
+						android:maxLines="1"
+						android:layout_marginLeft="5dp"
+						android:text="@{movie.releaseDate}"
+						app:layout_constraintStart_toEndOf="@id/runningTIme"
+						app:layout_constraintTop_toBottomOf="@id/movieTitleTextView"
+						tools:text="2"/>
+					<TextView
+						android:id="@+id/voteCountTextView"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:textColor="@color/colorTextPrimary"
+						android:textSize="@dimen/item_movie_detail_text_size"
+						android:layout_marginTop="@dimen/movie_details_horizontal_margin"
+						android:drawableEnd="@drawable/ic_votes_accent_24dp"
+						android:drawablePadding="8dp"
+						android:gravity="end"
+						android:text="@{String.format(@string/votes, movie.votesCount)}"
+						app:layout_constraintStart_toEndOf="@id/vertical_guide_line"
+						app:layout_constraintTop_toBottomOf="@+id/runningTIme"
+						tools:text="130, 100 votes"/>
+
+					<TextView
+						android:id="@+id/genresTextView"
+						android:layout_width="@dimen/match_constraints"
+						android:layout_height="wrap_content"
+						android:layout_marginTop="@dimen/movie_details_horizontal_margin"
+						android:text="@{movie.genres.toString()}"
+						android:textColor="@color/colorTextSecondary"
+						android:textSize="12sp"
+						app:layout_constraintStart_toEndOf="@id/vertical_guide_line"
+						app:layout_constraintTop_toBottomOf="@id/voteCountTextView"
+
+						tools:text="Action, Adventure, Comedy, Fantasy"/>
+
+
+				</androidx.constraintlayout.widget.ConstraintLayout>
+
+				<androidx.appcompat.widget.Toolbar
+					android:id="@+id/toolbar"
+					android:layout_width="match_parent"
+					android:elevation="2dp"
+					android:layout_height="?attr/actionBarSize"
+					app:layout_collapseMode="pin"/>
+			</com.google.android.material.appbar.CollapsingToolbarLayout>
+		</com.google.android.material.appbar.AppBarLayout>
+
+		<androidx.core.widget.NestedScrollView
+			android:layout_width="match_parent"
+			android:layout_height="match_parent"
+			app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
+			<TextView
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:textColor="@color/colorTextPrimary"
+				android:textSize="@dimen/item_movie_detail_text_size"
+				android:layout_margin="@dimen/fragment_movie_list_movie_list_margin"
+				android:text="@{movie.overview}"/>
+
+		</androidx.core.widget.NestedScrollView>
+
+
+
+
+
+	</androidx.coordinatorlayout.widget.CoordinatorLayout>
+</layout>
